@@ -88,7 +88,6 @@ export const FlowProvider = ({ children }) => {
     setEdges((eds: any) => [...eds, newEdge]);
   };
 
-  // Новая функция для изменения пользователя
   const editMember = (id: string, firstName: string, secondName: string, sex: string, dateOfBirth: Date) => {
     setNodes((nds: any[]) =>
       nds.map((node: { id: string; data: any; }) => {
