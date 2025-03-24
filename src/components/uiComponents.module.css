@@ -1,0 +1,88 @@
+/* Базовый стиль для всех кнопок */
+.button {
+    padding: 8px 16px; /* Внутренние отступы */
+    border-radius: 8px; /* Закругленные края */
+    border: grey; /* Без обводки */
+    cursor: pointer; /* Курсор указателя */
+    transition: background-color 0.2s ease, transform 0.1s ease; /* Плавные переходы */
+  }
+  
+  /* Основная кнопка (например, "Отправить") */
+  .primary {
+    background-color: #007bff; /* Синий цвет */
+    color: #ffffff; /* Белый текст */
+  }
+  
+  .primary:hover {
+    background-color: #0056b3; /* Темнее при наведении */
+  }
+  
+  .primary:active {
+    transform: scale(0.98); /* Легкое сжатие при клике */
+  }
+  
+  /* Кнопка удаления */
+  .delete {
+    background-color: #dc3545; /* Красный цвет */
+    color: #ffffff;
+  }
+  
+  .delete:hover {
+    background-color: #b02a37; /* Темнее при наведении */
+  }
+  
+  .delete:active {
+    transform: scale(0.98);
+  }
+  
+  /* Кнопка закрытия */
+  .close {
+    background-color: #6c757d; /* Серый цвет */
+    color: #ffffff;
+  }
+  
+  .close:hover {
+    background-color: #545b62; /* Темнее при наведении */
+  }
+  
+  .close:active {
+    transform: scale(0.98);
+  }
+  
+  /* Отключенное состояние (опционально) */
+  .button:disabled {
+    background-color: #d6d6d6; /* Серый фон */
+    color: #a0a0a0; /* Серый текст */
+    cursor: not-allowed; /* Курсор "не доступно" */
+  }
+
+  .popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    border: 1px solid #ccc;
+  }
+
+  .popup .error {
+    color: #d32f2f; /* Красный цвет из Material Design */
+    font-size: 0.875rem; /* 14px при базовом размере шрифта 16px */
+    font-style: italic;
+    margin-top: 4px; /* Отступ сверху для отделения от поля */
+    display: block; /* Чтобы текст ошибки занимал свою строку */
+  }
+
+  .buttons {
+    margin-top: 5px;
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+
+  .label {
+    display: block;
+  }
