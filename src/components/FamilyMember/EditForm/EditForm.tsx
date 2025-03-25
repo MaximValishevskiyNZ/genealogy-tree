@@ -3,7 +3,6 @@ import styles from "../../uiComponents.module.css";
 import { FlowContext } from "../../../context";
 import { useForm } from "@tanstack/react-form";
 import { z } from "zod";
-import { FamilyMemberNodeData } from "../FamilyMemberNode";
 import { IoSaveOutline } from "react-icons/io5";
 import { RxCross1 } from "react-icons/rx";
 

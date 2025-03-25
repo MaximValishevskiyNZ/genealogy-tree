@@ -1,5 +1,5 @@
 import { createContext, useState, useCallback, useEffect, ReactNode } from 'react';
-import { Node, Edge, OnNodesChange, OnEdgesChange, applyNodeChanges, applyEdgeChanges, NodeChange, EdgeChange } from '@xyflow/react';
+import { Edge, OnNodesChange, OnEdgesChange, applyNodeChanges, applyEdgeChanges, NodeChange, EdgeChange } from '@xyflow/react';
 import { v4 as uuidv4 } from 'uuid';
 import { FamilyMemberNodeData } from './components/FamilyMember/FamilyMemberNode';
 
