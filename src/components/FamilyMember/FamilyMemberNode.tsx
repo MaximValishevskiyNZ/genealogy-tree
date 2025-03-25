@@ -39,7 +39,7 @@ export function FamilyMemberNodeUI(props: NodeProps<FamilyMemberNodeData>) {
                 {props.data.sex === "M" ? "♂" : "♀"} {props.data.firstName} {props.data.secondName}
             </div>
             <div className={styles.birthDate}>
-                Born: {props.data.dateOfBirth ? props.data.dateOfBirth.toLocaleDateString() : ''}
+                {props.data.dateOfBirth ? props.data.dateOfBirth.toLocaleDateString() : ''}
             </div>
             <div className={stylesUI.buttons}>
                 <button className={stylesUI.button} onClick={changeFormPopUp}><FaPlus /></button>
