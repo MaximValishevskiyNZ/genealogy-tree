@@ -6,6 +6,11 @@ import { z } from "zod";
 import { IoSaveOutline } from "react-icons/io5";
 import { RxCross1 } from "react-icons/rx";
 
+interface AddNewFormProps {
+  changeFormPopUp: () => void;
+  id: string;
+}
+
 const validationSchema = z.object({
   firstName: z.string().min(2, "Имя должно содержать минимум 2 символа"),
   secondName: z.string().min(2, "Фамилия должна содержать минимум 2 символа"),
@@ -16,7 +21,7 @@ const validationSchema = z.object({
   }),
 });
 
-export function AddNewForm({ changeFormPopUp, id }) {
+export function AddNewForm({ changeFormPopUp, id }: AddNewFormProps) {
   const { addNewMember } = useContext(FlowContext);
 
   const form = useForm({
@@ -35,9 +40,9 @@ export function AddNewForm({ changeFormPopUp, id }) {
         id,
         value.firstName,
         value.secondName,
-        value.sex,
+        value.sex as "M" | "F",
         value.dateOfBirth,
-        value.relation
+        value.relation as "parent" | "child"
       );
     },
   });
@@ -66,7 +71,7 @@ export function AddNewForm({ changeFormPopUp, id }) {
               {field.state.value && field.state.meta.errors ? (
                <em className={styles.error}>
                   {field.state.meta.errors
-                    .map((error) => error.message)
+                    .map((error) => error?.message)
                     .join(", ")}
                 </em>
               ) : null}
@@ -88,7 +93,7 @@ export function AddNewForm({ changeFormPopUp, id }) {
               {field.state.value && field.state.meta.errors ? (
                 <em className={styles.error}>
                   {field.state.meta.errors
-                    .map((error) => error.message)
+                    .map((error) => error?.message)
                     .join(", ")}
                 </em>
               ) : null}
@@ -113,7 +118,7 @@ export function AddNewForm({ changeFormPopUp, id }) {
               {field.state.value && field.state.meta.errors ? (
                <em className={styles.error}>
                   {field.state.meta.errors
-                    .map((error) => error.message)
+                    .map((error) => error?.message)
                     .join(", ")}
                 </em>
               ) : null}
@@ -136,7 +141,7 @@ export function AddNewForm({ changeFormPopUp, id }) {
               {field.state.value && field.state.meta.errors ? (
                <em className={styles.error}>
                   {field.state.meta.errors
-                    .map((error) => error.message)
+                    .map((error) => error?.message)
                     .join(", ")}
                 </em>
               ) : null}
@@ -161,7 +166,7 @@ export function AddNewForm({ changeFormPopUp, id }) {
               {field.state.value && field.state.meta.errors ? (
                <em className={styles.error}>
                   {field.state.meta.errors
-                    .map((error) => error.message)
+                    .map((error) => error?.message)
                     .join(", ")}
                 </em>
               ) : null}

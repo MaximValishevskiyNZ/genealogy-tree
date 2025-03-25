@@ -1,36 +1,48 @@
-import { FormEvent, JSXElementConstructor, Key, ReactElement, ReactNode, ReactPortal, useContext, useState } from "react";
+import { ChangeEvent, useContext, useState } from "react";
 import { FlowContext } from "../../context";
-import styles from './SearchComponent.module.css'
-import Fuse from 'fuse.js'
+import styles from './SearchComponent.module.css';
+import Fuse from 'fuse.js';
 
-export function SearchComponent()  {
-    const { nodes } = useContext(FlowContext);
-    const [ inputValue, setInputValue ] = useState('')
-    const [ searchResults, setSearchResults ] = useState('')
-  
-    function handleInput(event: FormEvent<HTMLInputElement>): void {
-        const query = event.target.value;
-        setInputValue(query);
-        const fuse = new Fuse(nodes, {
-            keys: ['data.firstName', 'data.secondName'],
-            threshold: 0.3,
-          });
-      
-          const results = fuse.search(query).map(result => result.item);
-          setSearchResults(results);
+interface Node {
+  id: string;
+  data: {
+    firstName: string;
+    secondName: string;
+  };
+}
+
+export function SearchComponent() {
+  const { nodes } = useContext(FlowContext);
+  const [inputValue, setInputValue] = useState('');
+  const [searchResults, setSearchResults] = useState<Node[]>([]);
+
+  function handleInput(event: ChangeEvent<HTMLInputElement>): void {
+    const query = event.target.value;
+    setInputValue(query);
+
+    if (query.trim() === '') {
+      setSearchResults([]);
+    } else {
+      const fuse = new Fuse(nodes, {
+        keys: ['data.firstName', 'data.secondName'],
+        threshold: 0.3,
+      });
+      const results = fuse.search(query).map(result => result.item);
+      setSearchResults(results);
     }
+  }
 
-    return (
-        <div className={styles.searchComponent}>
+  return (
+    <div className={styles.searchComponent}>
       <input
         type="text"
         value={inputValue}
         onInput={handleInput}
         placeholder="Поиск"
       />
-      {searchResults && (
+      {searchResults.length > 0 && (
         <ul>
-          {searchResults.map((node: { id: Key | null | undefined; data: { firstName: string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<string | number | bigint | boolean | ReactPortal | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined> | null | undefined; secondName: string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<string | number | bigint | boolean | ReactPortal | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined> | null | undefined; }; }) => (
+          {searchResults.map((node: Node) => (
             <li key={node.id}>
               {node.data.firstName} {node.data.secondName}
             </li>
@@ -41,5 +53,5 @@ export function SearchComponent()  {
         <p>Ничего не найдено</p>
       )}
     </div>
-    )
+  );
 }

@@ -7,6 +7,18 @@ import { FamilyMemberNodeData } from "../FamilyMemberNode";
 import { IoSaveOutline } from "react-icons/io5";
 import { RxCross1 } from "react-icons/rx";
 
+interface EditFormProps {
+  changeEditPopUp: () => void;
+  id: string;
+  data: {
+    sex: "M" | "F";
+    firstName: string;
+    secondName: string;
+    dateOfBirth: Date;
+    root?: boolean
+};
+}
+
 const validationSchema = z.object({
   firstName: z.string().min(2, "Имя должно содержать минимум 2 символа"),
   secondName: z.string().min(2, "Фамилия должна содержать минимум 2 символа"),
@@ -14,7 +26,7 @@ const validationSchema = z.object({
   dateOfBirth: z.date({ required_error: "Дата рождения обязательна" }),
 });
 
-export function EditForm({ changeEditPopUp, id, data }) {
+export function EditForm({ changeEditPopUp, id, data }: EditFormProps) {
   const { editMember } = useContext(FlowContext);
 
   const form = useForm({
@@ -28,13 +40,13 @@ export function EditForm({ changeEditPopUp, id, data }) {
       onChange: validationSchema,
     },
     onSubmit: ({ value }) => {
-        console.log(value)
-        editMember(
+      console.log(value);
+      editMember(
         id,
         value.firstName,
         value.secondName,
         value.sex,
-        value.dateOfBirth,
+        value.dateOfBirth
       );
     },
   });
@@ -61,9 +73,9 @@ export function EditForm({ changeEditPopUp, id, data }) {
                 onChange={(e) => field.handleChange(e.target.value)}
               />
               {field.state.value && field.state.meta.errors ? (
-               <em className={styles.error}>
+                <em className={styles.error}>
                   {field.state.meta.errors
-                    .map((error) => error.message)
+                    .map((error) => error?.message)
                     .join(", ")}
                 </em>
               ) : null}
@@ -85,7 +97,7 @@ export function EditForm({ changeEditPopUp, id, data }) {
               {field.state.value && field.state.meta.errors ? (
                 <em className={styles.error}>
                   {field.state.meta.errors
-                    .map((error) => error.message)
+                    .map((error) => error?.message)
                     .join(", ")}
                 </em>
               ) : null}
@@ -102,15 +114,15 @@ export function EditForm({ changeEditPopUp, id, data }) {
                 name={field.name}
                 value={field.state.value}
                 onBlur={field.handleBlur}
-                onChange={(e) => field.handleChange(e.target.value)}
+                onChange={(e) => field.handleChange(e.target.value as "M" | "F")}
               >
                 <option value="M">Мужской</option>
                 <option value="F">Женский</option>
               </select>
               {field.state.value && field.state.meta.errors ? (
-               <em className={styles.error}>
+                <em className={styles.error}>
                   {field.state.meta.errors
-                    .map((error) => error.message)
+                    .map((error) => error?.message)
                     .join(", ")}
                 </em>
               ) : null}
@@ -131,9 +143,9 @@ export function EditForm({ changeEditPopUp, id, data }) {
                 onChange={(e) => field.handleChange(new Date(e.target.value))}
               />
               {field.state.value && field.state.meta.errors ? (
-               <em className={styles.error}>
+                <em className={styles.error}>
                   {field.state.meta.errors
-                    .map((error) => error.message)
+                    .map((error) => error?.message)
                     .join(", ")}
                 </em>
               ) : null}
@@ -141,12 +153,14 @@ export function EditForm({ changeEditPopUp, id, data }) {
           ),
         })}
         <div className={styles.buttons}>
-        <button className={styles.button} type="submit"><IoSaveOutline /></button>
-        <button className={styles.button} onClick={changeEditPopUp}><RxCross1 /></button>
+          <button className={styles.button} type="submit">
+            <IoSaveOutline />
+          </button>
+          <button className={styles.button} onClick={changeEditPopUp}>
+            <RxCross1 />
+          </button>
         </div>
       </form>
     </div>
   );
 }
-
-

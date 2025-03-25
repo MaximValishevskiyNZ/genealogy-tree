@@ -3,15 +3,15 @@ import { Node, Edge, OnNodesChange, OnEdgesChange, applyNodeChanges, applyEdgeCh
 import { v4 as uuidv4 } from 'uuid';
 import { FamilyMemberNodeData } from './components/FamilyMember/FamilyMemberNode';
 
-const initialNodes: Node<FamilyMemberNodeData>[] = [
+const initialNodes: FamilyMemberNodeData[] = [
   { id: '1', position: { x: 300, y: 300 }, data: { sex: 'M', firstName: 'Иван', secondName: 'Иванов',  dateOfBirth: new Date(), root: true }, type: 'custom' },
 ];
 
-const loadNodes = (): Node<FamilyMemberNodeData>[] => {
+const loadNodes = (): FamilyMemberNodeData[] => {
   const saved = localStorage.getItem('nodes');
   if (saved) {
     const nodes = JSON.parse(saved);
-    return nodes.map((node: Node<FamilyMemberNodeData>) => ({
+    return nodes.map((node: FamilyMemberNodeData) => ({
       ...node,
       data: { ...node.data, dateOfBirth: new Date(node.data.dateOfBirth) },
     }));
@@ -25,12 +25,12 @@ const loadEdges = (): Edge[] => {
 };
 
 interface FlowContextType {
-  nodes: Node<FamilyMemberNodeData>[];
+  nodes: FamilyMemberNodeData[];
   edges: Edge[];
   onNodesChange: OnNodesChange;
   onEdgesChange: OnEdgesChange;
-  addNewMember: (sourceId: string, firstName: string, secondName: string, sex: string, dateOfBirth: Date, relation: 'parent' | 'child') => void;
-  editMember: (id: string, firstName: string, secondName: string, sex: string, dateOfBirth: Date) => void;
+  addNewMember: (sourceId: string, firstName: string, secondName: string, sex: "M" | "F", dateOfBirth: Date, relation: 'parent' | 'child') => void;
+  editMember: (id: string, firstName: string, secondName: string, sex: "M" | "F", dateOfBirth: Date) => void;
   deleteMember: (id: string) => void;
 }
 
@@ -47,13 +47,13 @@ const defaultContextValue: FlowContextType = {
 export const FlowContext = createContext<FlowContextType>(defaultContextValue);
 
 export const FlowProvider = ({ children }: { children: ReactNode }) => {
-  const [nodes, setNodes] = useState<Node<FamilyMemberNodeData>[]>(loadNodes);
+  const [nodes, setNodes] = useState<FamilyMemberNodeData[]>(loadNodes);
   const [edges, setEdges] = useState<Edge[]>(loadEdges);
 
   const onNodesChange = useCallback(
     (changes: NodeChange[]) =>
-      setNodes((nds: Node<FamilyMemberNodeData>[]) =>
-        applyNodeChanges(changes, nds) as Node<FamilyMemberNodeData>[]
+      setNodes((nds: FamilyMemberNodeData[]) =>
+        applyNodeChanges(changes, nds) as FamilyMemberNodeData[]
       ),
     []
   );
@@ -67,7 +67,7 @@ export const FlowProvider = ({ children }: { children: ReactNode }) => {
     sourceId: string,
     firstName: string,
     secondName: string,
-    sex: string,
+    sex: "M" | "F",
     dateOfBirth: Date,
     relation: 'parent' | 'child'
   ) => {
@@ -77,7 +77,7 @@ export const FlowProvider = ({ children }: { children: ReactNode }) => {
       ? { x: sourceNode.position.x, y: relation === 'parent' ? sourceNode.position.y - 200 : sourceNode.position.y + 200 }
       : { x: 0, y: 0 };
 
-    const newNode: Node<FamilyMemberNodeData> = {
+    const newNode: FamilyMemberNodeData = {
       id: newNodeId,
       position: newPosition,
       data: { firstName, secondName, sex, dateOfBirth },
@@ -102,7 +102,7 @@ export const FlowProvider = ({ children }: { children: ReactNode }) => {
     setEdges((eds) => [...eds, newEdge]);
   };
 
-  const editMember = (id: string, firstName: string, secondName: string, sex: string, dateOfBirth: Date) => {
+  const editMember = (id: string, firstName: string, secondName: string, sex: "M" | "F", dateOfBirth: Date) => {
     setNodes((nds) =>
       nds.map((node) => {
         if (node.id === id) {
