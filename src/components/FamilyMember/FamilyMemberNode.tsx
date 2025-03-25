@@ -1,4 +1,4 @@
-import { Handle, Node, NodeProps, Position } from "@xyflow/react";
+import { Handle, Node, NodeProps, Position, XYPosition } from "@xyflow/react";
 import styles from "./FamilyMemberNodeUI.module.css"; 
 import { FlowContext } from "../../context";
 import { useContext, useState } from "react";

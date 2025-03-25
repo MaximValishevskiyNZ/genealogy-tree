@@ -5,7 +5,7 @@ import { FlowProvider, FlowContext } from './context';
 import { FamilyMemberNodeUI } from './components/FamilyMember/FamilyMemberNode';
 import { SearchComponent } from './components/SearchComponent/SearchComponent';
 
-// Компонент ReactFlow, использующий контекст
+
 const FlowComponent = () => {
   const { nodes, edges, onNodesChange, onEdgesChange} = useContext(FlowContext);
 
@@ -27,7 +27,6 @@ const FlowComponent = () => {
   );
 };
 
-// Основной компонент приложения
 export default function App() {
   return (
     <FlowProvider>
